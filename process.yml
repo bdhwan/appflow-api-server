@@ -1,0 +1,7 @@
+apps:
+  - script   : index.js
+    name     : appflow
+    exec_mode: cluster
+    env:
+      NODE_ENV : 'production'
+    instances: 1

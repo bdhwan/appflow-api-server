@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+#59 23 * * *     root    /usr/bin/find /home/hah-api-server/logs -type f -mtime +1 -exec rm -f -- {} \;
+#59 11 * * *     root    /usr/bin/find /home/hah-api-server/logs -type f -mtime +1 -exec rm -f -- {} \;
