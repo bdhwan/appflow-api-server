@@ -170,6 +170,7 @@ module.exports = {
             console.error(err);
         }
     },
+
     trigger_app_build: async (req, res) => {
         try {
             //디비 인서트
@@ -222,7 +223,7 @@ module.exports = {
             console.log('select_current_apps_version post-' + req.params.app_id);
             //디비 인서트
             console.log('select_apps_version', req.body);
-            const result = await apps_model.select_current_apps_version();
+            const result = await apps_model.select_current_apps_version(req.body.app_id, req.body.channel_name);
             if (result) {
                 let available = true;
                 let platform = 'android';
@@ -321,6 +322,11 @@ module.exports = {
             //디비 인서트
             console.log('update_current_app_version', req.body);
             await apps_model.update_current_app_version(req.body.apps_idx, req.body.apps_version_idx);
+
+            const url = config.app.build_server_url + '/deploy_web/' + req.body.apps_version_idx;
+            console.log('url =' + url);
+            utils.getResult(url);
+
             res.json(
                 {
                     status: 1,

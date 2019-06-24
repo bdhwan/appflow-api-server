@@ -1,5 +1,7 @@
 
 const uuidv4 = require('uuid/v4');
+const unirest = require('unirest');
+
 
 module.exports = {
     query: query,
@@ -13,6 +15,8 @@ module.exports = {
     queryListTransaction: queryListTransaction,
     queryOneTransaction: queryOneTransaction,
     queryTransaction: queryTransaction,
+    getResult: getResult,
+    postResult: postResult,
 }
 
 
@@ -24,6 +28,39 @@ function chunks_from_string(str, chunkSize) {
     }
     return arr;
 }
+
+
+function getResult(url) {
+    return new Promise((resolve, reject) => {
+        console.log("url = " + url);
+        unirest.get(url)
+            .end(function (result) {
+                console.log(result.status, result.headers, result.body);
+                resolve(result.body);
+            });
+    });
+
+}
+
+function postResult(url, data) {
+    return new Promise((resolve, reject) => {
+
+        unirest.post(url)
+            .headers({
+                'Content-Type': 'multipart/form-data'
+            })
+            .field(data)
+            .end(function (result) {
+                // console.log(result.status, result.headers, result.body);
+                resolve(result.body);
+            });
+    });
+}
+
+
+
+
+
 
 
 //1개만 찾을 때

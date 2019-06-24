@@ -25,7 +25,7 @@ module.exports = {
     },
 
     update_app: async (data) => {
-        return await utils.query(pool, 'UPDATE apps set app_id=?,channel_name=?,git_url=?,git_user_pw=?,git_user_id=?,endpoint=?,cache_url=?,auto_update=?,android_link=?, ios_link=? where apps_idx=? limit 1', [data.app_id, data.channel_name, data.git_url, data.git_user_pw, data.git_user_id, data.endpoint, data.cache_url, data.auto_update, data.android_link, data.ios_link, data.apps_idx]);
+        return await utils.query(pool, 'UPDATE apps set app_id=?,channel_name=?,git_url=?,git_user_id=?,git_user_pw=?,git_web_url=?,git_web_user_id=?,git_web_user_pw=?,endpoint=?,cache_url=?,auto_update=?,android_link=?, ios_link=? where apps_idx=? limit 1', [data.app_id, data.channel_name, data.git_url, data.git_user_id, data.git_user_pw, data.git_web_url, data.git_web_user_id, data.git_web_user_pw, data.endpoint, data.cache_url, data.auto_update, data.android_link, data.ios_link, data.apps_idx]);
     },
 
 
@@ -75,8 +75,8 @@ module.exports = {
         return await utils.query(pool, 'INSERT INTO apps_version SET ?', [data]);
     },
 
-    select_current_apps_version: async () => {
-        return await utils.queryOne(pool, 'SELECT * from apps_version WHERE enabled = true order by apps_version_idx desc limit 1', []);
+    select_current_apps_version: async (app_id, channel_name) => {
+        return await utils.queryOne(pool, 'SELECT * from apps_version a join (select apps_idx,channel_name from apps where app_id=? limit 1) b on a.apps_idx = b.apps_idx WHERE a.enabled = true and b.channel_name =? order by a.apps_version_idx desc limit 1', [app_id, channel_name]);
     },
 
     get_ready_build: async () => {

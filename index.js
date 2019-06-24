@@ -15,6 +15,7 @@ app.use("/apps", require('./routes/apps'));
 
 // LB 체크용 
 app.get('/healthcheck', function (req, res) {
+    console.log('healthcheck');
     res.status(200).json('appflow api server node-env:' + process.env.NODE_ENV);
 });
 
