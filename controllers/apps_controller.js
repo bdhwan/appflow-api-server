@@ -195,8 +195,6 @@ module.exports = {
                         build: build
                     }
                 });
-
-
         }
         else {
             res.json({
@@ -206,38 +204,38 @@ module.exports = {
 
     },
 
-    // trigger_app_build: async (req, res) => {
-    //     try {
-    //         //디비 인서트
-    //         console.log('trigger_app_build', req.params.apps_idx);
+    trigger_app_build_with_apps_idx: async (req, res) => {
+        try {
+            //디비 인서트
+            console.log('trigger_app_build_with_apps_idx', req.params.apps_idx);
 
 
-    //         let apps_idx = req.params.apps_idx;
+            let apps_idx = req.params.apps_idx;
 
-    //         console.log('apps_idx =' + apps_idx);
+            console.log('apps_idx =' + apps_idx);
 
 
-    //         if (!apps_idx) {
-    //             throw 'no apps idx';
-    //         }
-    //         const build_history_uuid = utils.get_uuid(100);
-    //         const build_history = await apps_model.insert_build_history({
-    //             apps_idx: apps_idx,
-    //             build_history_uuid: build_history_uuid
-    //         });
-    //         const build = build_history.insertId;
-    //         res.json(
-    //             {
-    //                 status: 1,
-    //                 data: {
-    //                     build_history_uuid: build_history_uuid,
-    //                     build: build
-    //                 }
-    //             });
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // },
+            if (!apps_idx) {
+                throw 'no apps idx';
+            }
+            const build_history_uuid = utils.get_uuid(100);
+            const build_history = await apps_model.insert_build_history({
+                apps_idx: apps_idx,
+                build_history_uuid: build_history_uuid
+            });
+            const build = build_history.insertId;
+            res.json(
+                {
+                    status: 1,
+                    data: {
+                        build_history_uuid: build_history_uuid,
+                        build: build
+                    }
+                });
+        } catch (err) {
+            console.error(err);
+        }
+    },
 
     insert_apps_version: async (req, res) => {
         try {
