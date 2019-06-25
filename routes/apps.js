@@ -47,8 +47,8 @@ const controller = require('../controllers/apps_controller');
  *       500:
  *
  */
-router.post("/trigger_app_build/:apps_idx", controller.trigger_app_build);
-router.get("/trigger_app_build/:apps_idx", controller.trigger_app_build);
+router.post("/trigger_app_build", controller.trigger_app_build);
+router.get("/trigger_app_build", controller.trigger_app_build);
 
 
 router.post("/login", controller.login);
@@ -142,6 +142,8 @@ router.get("/select_app_version_list/:page_no/:count_per_page", controller.selec
 
 router.get("/select_meta_data", controller.select_meta_data);
 router.post("/select_meta_data", controller.select_meta_data);
+
+
 
 
 router.post("/update_current_app_version", controller.update_current_app_version);

@@ -24,8 +24,9 @@ module.exports = {
         return await utils.query(pool, 'INSERT INTO apps SET ?', [data]);
     },
 
+
     update_app: async (data) => {
-        return await utils.query(pool, 'UPDATE apps set app_id=?,channel_name=?,git_url=?,git_user_id=?,git_user_pw=?,git_web_url=?,git_web_user_id=?,git_web_user_pw=?,endpoint=?,cache_url=?,auto_update=?,android_link=?, ios_link=? where apps_idx=? limit 1', [data.app_id, data.channel_name, data.git_url, data.git_user_id, data.git_user_pw, data.git_web_url, data.git_web_user_id, data.git_web_user_pw, data.endpoint, data.cache_url, data.auto_update, data.android_link, data.ios_link, data.apps_idx]);
+        return await utils.query(pool, 'update apps set ? where apps_idx= ?', [data, data.apps_idx]);
     },
 
 
@@ -42,6 +43,10 @@ module.exports = {
 
     select_apps: async () => {
         return await utils.queryList(pool, 'select * FROM apps order by apps_idx desc', []);
+    },
+
+    find_app: async (git_full_name, channel_name) => {
+        return await utils.queryOne(pool, 'select * from apps where channel_name = ? and git_full_name = ? limit 1', [channel_name, git_full_name])
     },
 
 

@@ -17,7 +17,13 @@ module.exports = {
     queryTransaction: queryTransaction,
     getResult: getResult,
     postResult: postResult,
+    extractFullName: extractFullName,
+    extractGitUrl: extractGitUrl,
+    extractChannelName: extractChannelName,
+    extractFullNameFromPush: extractFullNameFromPush,
 }
+
+
 
 
 function chunks_from_string(str, chunkSize) {
@@ -60,6 +66,40 @@ function postResult(url, data) {
 
 
 
+function extractFullName(url) {
+    const list = url.replace('http://', '').replace('https://', '').replace('.git', '').split('/');
+    console.log(list[list.length - 2] + '/' + list[list.length - 1])
+    return list[list.length - 2] + '/' + list[list.length - 1];
+}
+
+function extractGitUrl(url) {
+    const list = url.split('@');
+    let targetUrl = '';
+    if (list.length == 1) {
+        targetUrl = url.replace('http://', '').replace('https://', '');
+    }
+    else {
+        targetUrl = list[1];
+    }
+    return targetUrl;
+}
+
+function extractChannelName(data) {
+    //bitbucket
+    if (data.push) {
+        return data.push.changes[0].new.name;
+    }
+    //github
+    else {
+        const temp = data.ref.split('/');
+        return temp[temp.length - 1];
+    }
+}
+
+function extractFullNameFromPush(data) {
+    //bitbucket
+    return data.repository.full_name;
+}
 
 
 
