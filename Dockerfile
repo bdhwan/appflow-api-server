@@ -7,8 +7,9 @@ USER root
 ADD . /home/appflow
 WORKDIR /home/appflow
 
-# RUN git clone https://github.com/bdhwan/appflow-admin-deploy.git
-# RUN mv appflow-admin-deploy admin
+RUN rm -rf admin
+RUN git clone https://github.com/bdhwan/appflow-admin-deploy.git
+RUN mv appflow-admin-deploy admin
 
 RUN rm -rf config/config.js
 RUN npm install
