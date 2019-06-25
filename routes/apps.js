@@ -50,8 +50,8 @@ const controller = require('../controllers/apps_controller');
 router.post("/trigger_app_build", controller.trigger_app_build);
 router.get("/trigger_app_build", controller.trigger_app_build);
 
-router.post("/trigger_app_build_with_apps_idx", controller.trigger_app_build_with_apps_idx);
-router.get("/trigger_app_build_with_apps_idx", controller.trigger_app_build_with_apps_idx);
+router.post("/trigger_app_build_with_apps_idx/:apps_idx", controller.trigger_app_build_with_apps_idx);
+router.get("/trigger_app_build_with_apps_idx/:apps_idx", controller.trigger_app_build_with_apps_idx);
 
 
 
