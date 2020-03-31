@@ -104,6 +104,8 @@ router.post("/find_build_list", controller.find_build_list);
 router.post("/insert_apps_version", controller.insert_apps_version);
 
 
+router.post("/insert_app_build", controller.insert_app_build);
+
 
 
 /** 

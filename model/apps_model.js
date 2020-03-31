@@ -80,9 +80,18 @@ module.exports = {
         return await utils.query(pool, 'INSERT INTO apps_version SET ?', [data]);
     },
 
+    insert_app_build: async (data) => {
+        return await utils.query(pool, 'INSERT INTO app_build SET ?', [data]);
+    },
+    
     select_current_apps_version: async (app_id, channel_name) => {
         return await utils.queryOne(pool, 'SELECT * from apps_version a join (select apps_idx,channel_name from apps where app_id=? limit 1) b on a.apps_idx = b.apps_idx WHERE a.enabled = true and b.channel_name =? order by a.apps_version_idx desc limit 1', [app_id, channel_name]);
     },
+
+    select_current_app_build: async (app_id, channel_name) => {
+        return await utils.queryOne(pool, 'SELECT * from app_build WHERE app_id=? and channel_name =? order by build desc limit 1', [app_id, channel_name]);
+    },
+
 
     get_ready_build: async () => {
         return await utils.queryOne(pool, 'select * from build_history where status = ? order by build_history_idx asc limit 1', ['ready']);

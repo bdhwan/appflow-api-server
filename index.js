@@ -1,4 +1,4 @@
-var port = process.env.PORT || 8080
+var port = process.env.PORT || 3000
 const config = require('./config/config');
 const cors = require('cors');
 const express = require("express");

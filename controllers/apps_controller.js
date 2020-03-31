@@ -252,8 +252,110 @@ module.exports = {
         }
     },
 
+    insert_app_build: async (req, res) => {
+        try {
+            //디비 인서트
+            console.log('insert_app_build', req.body);
+            await apps_model.insert_app_build(req.body);
+            res.json(
+                {
+                    status: 1,
+                    data: true
+                });
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    
 
     select_current_apps_version: async (req, res) => {
+        try {
+            console.log('select_current_app_build post-' + req.params.app_id);
+            //디비 인서트
+            console.log('select_current_app_build', req.body);
+            const result = await apps_model.select_current_app_build(req.body.app_id, req.body.channel_name);
+            if (result) {
+                let available = true;
+                let platform = 'android';
+                if (req.body.device) {
+                    const snapshot = req.body.device.snapshot;
+                    const build = req.body.device.build;
+                    platform = req.body.device.platform;
+                    available = !(snapshot === result.snapshot && build === result.build);
+                }
+                //  "url": 'https://' + utils.get_storage_url() + '/www/' + result.snapshot + '/' + platform + '/pro-manifest.json',
+                // "url": result.url + '/' + platform + '/pro-manifest.json',
+                const return_data = {
+                    "data": {
+                        "incompatibleUpdateAvailable": false,
+                        "snapshot": result.snapshot,
+                        "available": available,
+                        "compatible": true,
+                        "partial": false,
+                        "url": result.url + '/' + platform + '/pro-manifest.json',
+                        "build": result.build
+                    },
+                    "meta": {
+                        "status": 200,
+                        "request_id": null,
+                        "version": "2.0.0-sdlc-beta.0"
+                    }
+                }
+
+
+                
+                // const return_data = {
+                //     "data": {
+                //         "partial": false,
+                //         "snapshot": "66192f03-8627-492c-b4cf-22775be368dc",
+                //         "build": 6743417,
+                //         "url": "https://api.ionicjs.com/apps/133e24e9/snapshots/66192f03-8627-492c-b4cf-22775be368dc/manifest",
+                //         "compatible": true,
+                //         "incompatibleUpdateAvailable": false,
+                //         "available": true
+                //     },
+                //     "meta": {
+                //         "status": 200,
+                //         "request_id": null,
+                //         "version": "2.0.0-sdlc-beta.0"
+                //     }
+                // }
+                
+
+                
+
+                console.log('will return ', return_data);
+                res.json(return_data);
+            }
+            else {
+
+                const return_data = {
+                    "data": {
+                        "incompatibleUpdateAvailable": false,
+                        "available": false,
+                        "compatible": false,
+                        "partial": false
+                    },
+                    "meta": {
+                        "status": 200,
+                        "request_id": null,
+                        "version": "2.0.0-sdlc-beta.0"
+                    }
+                }
+                console.log('will return ', return_data);
+                res.json(return_data);
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+
+
+
+
+    select_current_apps_version__: async (req, res) => {
         try {
             console.log('select_current_apps_version post-' + req.params.app_id);
             //디비 인서트
@@ -286,6 +388,29 @@ module.exports = {
                         "version": "2.0.0-sdlc-beta.0"
                     }
                 }
+
+
+                
+                // const return_data = {
+                //     "data": {
+                //         "partial": false,
+                //         "snapshot": "66192f03-8627-492c-b4cf-22775be368dc",
+                //         "build": 6743417,
+                //         "url": "https://api.ionicjs.com/apps/133e24e9/snapshots/66192f03-8627-492c-b4cf-22775be368dc/manifest",
+                //         "compatible": true,
+                //         "incompatibleUpdateAvailable": false,
+                //         "available": true
+                //     },
+                //     "meta": {
+                //         "status": 200,
+                //         "request_id": null,
+                //         "version": "2.0.0-sdlc-beta.0"
+                //     }
+                // }
+                
+
+                
+
                 console.log('will return ', return_data);
                 res.json(return_data);
             }
