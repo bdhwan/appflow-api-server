@@ -93,6 +93,13 @@ module.exports = {
     },
 
 
+
+    select_current_all_app_build: async () => {
+        return await utils.queryList(pool, 'SELECT * from app_build order by build desc limit 100', []);
+    },
+
+
+
     get_ready_build: async () => {
         return await utils.queryOne(pool, 'select * from build_history where status = ? order by build_history_idx asc limit 1', ['ready']);
     },

@@ -354,6 +354,18 @@ module.exports = {
 
 
 
+    select_current_all_app_build: async (req, res) => {
+        try {
+            const result = await apps_model.select_current_all_app_build();
+            res.json(result);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+
+    
+
 
     select_current_apps_version__: async (req, res) => {
         try {

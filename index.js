@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const shell = require('shelljs');
 
+const apps_model = require('./model/apps_model');
 
 app.enable("trust proxy");
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -30,8 +31,15 @@ app.post('/reload_source', function (req, res) {
     res.status(200).json(true);
 });
 
+
+
+
+app.get('/', async (req, res) => {
+    return res.status(200).send("YAY! this is api server!!-" + port+', apps_model= '+await apps_model.select_current_all_app_build());
+});
+
 // app.use('/static', express.static(config.app.storage_path, {}));
-app.use('/', express.static('admin/www', {}));
+// app.use('/', express.static('admin/www', {}));
 app.listen(port);
 
 console.log("config:", config);
